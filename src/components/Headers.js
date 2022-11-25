@@ -1,16 +1,7 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-export default function App() {
-    return (
-        <>
-            <Headers />
-            <Outlet />
-        </>
-    )
-}
-
-const Headers = () => {
+export default function Headers() {
     return (
         <nav>
             <ul>
@@ -18,7 +9,7 @@ const Headers = () => {
                     <Link to='/'>Home</Link>
                 </li>
                 <li>
-                    <Link to='/topic'>Topic</Link>
+                    <Link to='/topic/overview'>Topic</Link>
                 </li>
                 <li>
                     <Link to='/others'>Others</Link>

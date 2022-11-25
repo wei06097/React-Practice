@@ -50,3 +50,22 @@ HashRouter ：網址會帶 # 字號，純前端使用，換 url 時不會發送 
         )
     }
     ```
+- 動態路由參數
+
+    ```JavaScript
+    <BrowserRouter>
+        <Routes>
+            <Route path="/product/:id" element={<Product/>} />
+        </Routes>
+    </BrowserRouter>
+    ```
+    ```JavaScript
+    import { useParams } from "react-router-dom";
+
+    export default Product = () => {
+        const params= useParams()
+        return (
+            <h1>{params.id}</h1>
+        )
+    }
+    ```
