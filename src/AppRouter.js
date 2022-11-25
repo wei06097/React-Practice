@@ -13,12 +13,12 @@ export default function AppRouter() {
         <>
             <Router><Routes>
                 <Route path='/' exact element={<App />}>
-                    <Route index element={<Home />} />  
-                    <Route path='/topic' element={<Topic />}>
+                    <Route index element={<Home />} />
+                    <Route path='topic' element={<Topic />}>
                         <Route path='education' element={<Education />} />
                         <Route path='entertainment' element={<Entertainment />} />
                     </Route>
-                    <Route path='/others' element={<Others />} />
+                    <Route path='others' element={<Others />} />
                 </Route>
                 <Route path='*' element={<h1>404 Not Found</h1>} />
             </Routes></Router>
