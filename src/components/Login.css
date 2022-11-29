@@ -1,0 +1,48 @@
+html {height: 99%;}
+input {display: block;}
+
+body {
+    font-family: Roboto;
+    background-color: rgb(17, 103, 73);
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    text-align: center;
+    color: white;
+    background-color: rgb(15, 6, 44);
+    box-shadow: 10px 10px 25px #00000080;
+    width: 400px;
+    padding: 40px;
+}
+
+.login input {
+    font-size: 15px;
+    color: white;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.login input[type='text'],
+.login input[type='password'] {
+    width: 250px;
+    border: 2px solid rgb(42, 42, 230);
+}
+
+.login input[type='submit'] {
+    width: 100px;
+    border: 2px solid rgb(8, 128, 8);
+}
+
+.login input[type='submit']:hover {
+    transition: 0.5s;
+    width: 150px;
+    background-color: rgb(8, 128, 8);
+}
