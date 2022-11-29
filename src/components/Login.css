@@ -42,7 +42,8 @@ body {
 }
 
 .login input[type='submit']:hover {
-    transition: 0.5s;
     width: 150px;
     background-color: rgb(8, 128, 8);
+    cursor: pointer;
+    transition: 0.5s;
 }
