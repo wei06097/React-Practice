@@ -51,7 +51,7 @@ export default function Register() {
             setPassword('')
             setPassword2('')
         } else {
-            fetchAPI(API_REGISTER, payload)
+            fetchAPI(payload)
             .then ( (data) => {
                 setFlag(false)
                 if (data.success) setUsername('')
