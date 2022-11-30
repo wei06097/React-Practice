@@ -1,14 +1,16 @@
 {
-  "posts": [
+  "users": [
     {
-      "data": [
-        {
-          "account": "wei06097",
-          "password": "wei06097",
-          "username": "陳韋翰"
-        }
-      ],
-      "id": "1"
+      "account": "wei06097",
+      "password": "12345",
+      "username": "陳韋翰",
+      "id": 1
+    },
+    {
+      "account": "kokoro",
+      "password": "smile",
+      "username": "こころ",
+      "id": 2
     }
   ]
 }

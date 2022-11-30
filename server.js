@@ -1,6 +1,6 @@
 /* ======================================== */
 const PORT = 5000
-const API_DB = "http://localhost:4000/posts/1"
+const API_USERS = "http://localhost:4000/users"
 const express = require('express')
 const cors = require('cors')
 const fetch = require('node-fetch')
@@ -18,13 +18,12 @@ function isBlank(...list) {
 } 
 
 async function loginRequest(account, password) {
-    const res = await fetch(API_DB)
-    const data = await res.json()
-    const array = data.data
+    const res = await fetch(API_USERS)
+    const array = await res.json()
     for (let i=0; i<array.length; i++) {
         let user = array[i]
-        if (user.account == account) {
-            if (user.password == password) return Promise.resolve({
+        if (user.account === account) {
+            if (user.password === password) return Promise.resolve({
                 success: true,
                 message: '登入成功'
             })
@@ -41,25 +40,22 @@ async function loginRequest(account, password) {
 }
 
 async function registerRequest(username, account, password) {
-    const res = await fetch(API_DB)
-    const data = await res.json()
-    const array = data.data
+    const res = await fetch(API_USERS)
+    const array = await res.json()
     for (let i=0; i<array.length; i++) {
         let user = array[i]
-        if (user.account == account) return Promise.resolve({
+        if (user.account === account) return Promise.resolve({
             success: false,
             message: '帳號已被註冊'
         })
     }
-    await fetch(API_DB, {
-        method: "PUT",
+    await fetch(API_USERS, {
+        method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            "data": [...array, {
-                account,
-                password,
-                username
-            }]
+            account,
+            password,
+            username
         })
     })
     return Promise.resolve({
