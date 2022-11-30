@@ -8,35 +8,53 @@ function isBlank(...list) {
         if (list[i] === '') return true
     }
     return false
-} 
+}
+
+async function fetchAPI(payload) {
+    try {
+        const res = await fetch(API_LOGIN, payload)
+        const data = await res.json()
+        return Promise.resolve(data)
+    } catch {
+        return Promise.reject()
+    }
+}
 
 export default function Login() {
+    const [flag, setFlag]  = useState(false)
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
     const handleAccount = (e) => setAccount(e.target.value)
     const handlePassword = (e) => setPassword(e.target.value)
     const submitForm = (e) => {
         e.preventDefault()
+        setFlag(true)
+        const payload = {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                account,
+                password
+            })
+        }
         if (isBlank(account, password)) {
+            setFlag(false)
             alert('輸入不可為空白')
         } else {
-            fetch(API_LOGIN, {
-                method: 'POST',
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    account,
-                    password
-                })
-            })
-            .then(res => res.json())
+            fetchAPI(payload)
             .then( (data) => {
+                setFlag(false)
                 if (!data.success) {
                     alert(data.message)
                     setPassword('')
                 } else {
                     alert(data.message)
-                    // 登入成功 跳轉
+                    window.location.href = '/homepage'
                 }
+            })
+            .catch( () => {
+                setFlag(false)
+                alert('伺服器沒有回應') 
             })
         }
     }
@@ -46,7 +64,7 @@ export default function Login() {
             <h1>登入頁面</h1>
             <input type="text" placeholder='帳號' onChange={handleAccount} value={account} />
             <input type="password" placeholder='密碼' onChange={handlePassword} value={password} autoComplete="on" />
-            <input type="submit" value="登入"/>
+            <input type="submit" value="登入" disabled={flag}/>
             <Link to='/register' className='link'>註冊帳號</Link>
         </form>
     </div>)

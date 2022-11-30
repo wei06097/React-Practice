@@ -8,9 +8,20 @@ function isBlank(...list) {
         if (list[i] === '') return true
     }
     return false
-} 
+}
+
+async function fetchAPI(payload) {
+    try {
+        const res = await fetch(API_REGISTER, payload)
+        const data = await res.json()
+        return Promise.resolve(data)
+    } catch {
+        return Promise.reject()
+    }
+}
 
 export default function Register() {
+    const [flag, setFlag]  = useState(false)
     const [username, setUsername] = useState('')
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
@@ -21,29 +32,37 @@ export default function Register() {
     const handlePassword2 = (e) => setPassword2(e.target.value)
     const submitForm = (e) => {
         e.preventDefault()
+        setFlag(true)
+        const payload = {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                username,
+                account,
+                password
+            })
+        }
         if (isBlank(username, account, password, password2)) {
+            setFlag(false)
             alert('輸入不可為空白')
         } else if (password !== password2) {
+            setFlag(false)
             alert('密碼不一致')
             setPassword('')
             setPassword2('')
         } else {
-            fetch(API_REGISTER, {
-                method: 'POST',
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    username,
-                    account,
-                    password
-                })
-            })
-            .then ( res => res.json())
+            fetchAPI(API_REGISTER, payload)
             .then ( (data) => {
+                setFlag(false)
                 if (data.success) setUsername('')
                 setAccount('')
                 setPassword('')
                 setPassword2('')
                 alert(data.message)
+            })
+            .catch( () => {
+                setFlag(false)
+                alert('伺服器沒有回應') 
             })
         }
     }
@@ -55,7 +74,7 @@ export default function Register() {
             <input type="text" placeholder='帳號' onChange={handleAccount} value={account} />
             <input type="password" placeholder='密碼' onChange={handlePassword} value={password} autoComplete="on" />
             <input type="password" placeholder='確認密碼' onChange={handlePassword2} value={password2} autoComplete="on" />
-            <input type="submit" value="註冊"/>
+            <input type="submit" value="註冊" disabled={flag} />
             <Link to='/login' className='link'>登入</Link>
         </form>
     </div>)
