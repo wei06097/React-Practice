@@ -1,7 +1,7 @@
 import './Login.css'
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
-import {API_REGISTER} from '../constant'
+import {API_REGISTER} from '../../constant'
 
 function isBlank(...list) {
     for (let i=0; i<list.length; i++) {
@@ -39,15 +39,11 @@ export default function Register() {
             })
             .then ( res => res.json())
             .then ( (data) => {
-                if (!data.success) {
-                    alert(data.message)
-                    setAccount('')
-                    setPassword('')
-                    setPassword2('')
-                } else {
-                    alert(data.message)
-                    // 註冊成功 跳轉
-                }
+                if (data.success) setUsername('')
+                setAccount('')
+                setPassword('')
+                setPassword2('')
+                alert(data.message)
             })
         }
     }

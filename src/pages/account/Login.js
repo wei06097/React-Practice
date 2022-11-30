@@ -1,7 +1,7 @@
 import './Login.css'
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
-import {API_LOGIN} from '../constant'
+import {API_LOGIN} from '../../constant'
 
 function isBlank(...list) {
     for (let i=0; i<list.length; i++) {

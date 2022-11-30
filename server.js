@@ -60,7 +60,7 @@ async function registerRequest(username, account, password) {
     })
     return Promise.resolve({
         success: true,
-        message: '註冊成功'
+        message: '註冊成功，請重新登入'
     })
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import Login from './components/Login'
-import Register from './components/Register'
-import Homepage from './components/Homepage'
+import Login from './pages/account/Login'
+import Register from './pages/account/Register'
+import Homepage from './pages/homepage/Homepage'
 
 const NotFound = () => <h1>404 Not Found</h1>
 const Home = () => {
