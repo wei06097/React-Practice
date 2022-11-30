@@ -7,6 +7,7 @@ export const get = () => cookies.get('token')
 export const remove = () => cookies.remove('token')
 
 export async function checkUser() {
+    if (!get()) return Promise.reject()
     const res = await fetch(API_CHECK, {
         method: "GET",
         headers: {token: get()}

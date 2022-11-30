@@ -1,7 +1,7 @@
 import './Login.css'
 import * as cookie from '../cookie'
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {API_LOGIN} from '../../constant'
 
 function isBlank(...list) {
@@ -22,6 +22,7 @@ async function fetchAPI(payload) {
 }
 
 export default function Login() {
+    const navigate = useNavigate()
     const [flag, setFlag]  = useState(false)
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
@@ -29,8 +30,8 @@ export default function Login() {
     const handlePassword = (e) => setPassword(e.target.value)
     useEffect( () => {
         cookie.checkUser()
-        .then( () => window.location.href = '/homepage' )
-    }, [])
+        .then( () => navigate("/homepage") )
+    }, [navigate])
     const submitForm = (e) => {
         e.preventDefault()
         setFlag(true)
@@ -55,7 +56,7 @@ export default function Login() {
                 } else {
                     alert(data.message)
                     cookie.set(data.token)
-                    window.location.href = '/homepage'
+                    navigate("/homepage")
                 }
             })
             .catch( () => {

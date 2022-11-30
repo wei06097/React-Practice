@@ -1,7 +1,7 @@
 import './Login.css'
 import * as cookie from '../cookie'
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {API_REGISTER} from '../../constant'
 
 function isBlank(...list) {
@@ -22,6 +22,7 @@ async function fetchAPI(payload) {
 }
 
 export default function Register() {
+    const navigate = useNavigate()
     const [flag, setFlag]  = useState(false)
     const [username, setUsername] = useState('')
     const [account, setAccount] = useState('')
@@ -33,8 +34,8 @@ export default function Register() {
     const handlePassword2 = (e) => setPassword2(e.target.value)
     useEffect( () => {
         cookie.checkUser()
-        .then( () => window.location.href = '/homepage' )
-    }, [])
+        .then( () => navigate("/homepage") )
+    }, [navigate])
     const submitForm = (e) => {
         e.preventDefault()
         setFlag(true)
