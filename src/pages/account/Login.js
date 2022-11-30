@@ -1,5 +1,6 @@
 import './Login.css'
-import React, {useState} from 'react'
+import * as cookie from '../cookie'
+import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {API_LOGIN} from '../../constant'
 
@@ -26,6 +27,10 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const handleAccount = (e) => setAccount(e.target.value)
     const handlePassword = (e) => setPassword(e.target.value)
+    useEffect( () => {
+        cookie.checkUser()
+        .then( () => window.location.href = '/homepage' )
+    }, [])
     const submitForm = (e) => {
         e.preventDefault()
         setFlag(true)
@@ -49,6 +54,7 @@ export default function Login() {
                     setPassword('')
                 } else {
                     alert(data.message)
+                    cookie.set(data.token)
                     window.location.href = '/homepage'
                 }
             })

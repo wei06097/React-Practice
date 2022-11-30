@@ -1,8 +1,8 @@
 /* ======================================== */
-const PORT = 5000
-const API_USERS = "http://localhost:4000/users"
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 const fetch = require('node-fetch')
 
 const app = express()
@@ -10,6 +10,10 @@ app.use(cors())
 app.use(express.json())
 
 /* ==================== */
+const PORT = 5000
+const API_USERS = "http://localhost:4000/users"
+const TOKEN_SECERT = process.env.ACCESS_TOKEN_SECERT
+
 const ILLEAGE = {
     success: false,
     message: "格式不合法"
@@ -34,7 +38,13 @@ async function loginRequest(account, password) {
         const user = users[0]
         if (user) {
             const success = (user.password === password)
+            const element = {
+                account: user.account,
+                username: user.username
+            }
+            const token = success? jwt.sign(element, TOKEN_SECERT): ''
             return Promise.resolve({
+                token: token,
                 success: success,
                 message: success? '登入成功': '密碼錯誤'
             })
@@ -99,6 +109,18 @@ app.post('/register', (req, res) => {
     registerRequest(username, account, password)
     .then( status => res.json(status) )
     .catch( () => res.json(NORESPONSE) )
+})
+
+app.get('/check', (req, res) => {
+    try {
+        const token = req.headers.token
+        jwt.verify(token, TOKEN_SECERT, (err, user) => {
+            if (err) res.sendStatus(403)
+            else res.json({user: user.username})
+        })
+    } catch {
+        res.sendStatus(403)
+    }
 })
 
 /* ======================================== */

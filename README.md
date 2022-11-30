@@ -5,6 +5,9 @@
 npm run db
 npm run server
 npm run start
+
+node
+require('crypto').randomBytes(64).toString('hex')
 ```
 
 ### 設計

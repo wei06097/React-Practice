@@ -1,5 +1,6 @@
 import './Login.css'
-import React, {useState} from 'react'
+import * as cookie from '../cookie'
+import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {API_REGISTER} from '../../constant'
 
@@ -30,6 +31,10 @@ export default function Register() {
     const handleAccount = (e) => setAccount(e.target.value)
     const handlePassword = (e) => setPassword(e.target.value)
     const handlePassword2 = (e) => setPassword2(e.target.value)
+    useEffect( () => {
+        cookie.checkUser()
+        .then( () => window.location.href = '/homepage' )
+    }, [])
     const submitForm = (e) => {
         e.preventDefault()
         setFlag(true)
