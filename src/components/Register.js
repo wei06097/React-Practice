@@ -52,7 +52,7 @@ export default function Register() {
         }
     }
 
-    return (<>
+    return (<div className='login-page'>
         <form onSubmit={submitForm} className='login'>
             <h1>註冊頁面</h1>
             <input type="text" placeholder='使用者名稱' onChange={handleUsername} value={username} />
@@ -62,5 +62,5 @@ export default function Register() {
             <input type="submit" value="註冊"/>
             <Link to='/login' className='link'>登入</Link>
         </form>
-    </>)
+    </div>)
 }

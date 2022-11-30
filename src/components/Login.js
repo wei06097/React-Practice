@@ -41,7 +41,7 @@ export default function Login() {
         }
     }
 
-    return (<>
+    return (<div className='login-page'>
         <form onSubmit={submitForm} className='login'>
             <h1>登入頁面</h1>
             <input type="text" placeholder='帳號' onChange={handleAccount} value={account} />
@@ -49,5 +49,5 @@ export default function Login() {
             <input type="submit" value="登入"/>
             <Link to='/register' className='link'>註冊帳號</Link>
         </form>
-    </>)
+    </div>)
 }
