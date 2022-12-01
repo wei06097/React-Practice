@@ -25,11 +25,15 @@ const NORESPONSE = {
 
 /* ======================================== */
 function isBlank(...list) {
+    const illeageChar = [' ', '/', '\\', '?', '!']
     for (let i=0; i<list.length; i++) {
         if (list[i] === '') return true
+        for (let j=0; j<illeageChar.length; j++) {
+            if (list[i].includes(illeageChar[j])) return true
+        }
     }
     return false
-} 
+}
 
 async function loginRequest(account, password) {
     try {
@@ -95,20 +99,26 @@ async function registerRequest(username, account, password) {
 app.post('/login', (req, res) => {
     const account = req.body.account
     const password = req.body.password
-    if (isBlank(account, password)) res.json(ILLEAGE)
-    loginRequest(account, password)
-    .then( status => res.json(status) )
-    .catch( () => res.json(NORESPONSE) )
+    if (isBlank(account, password)) {
+        res.json(ILLEAGE)
+    } else {
+        loginRequest(account, password)
+        .then( status => res.json(status) )
+        .catch( () => res.json(NORESPONSE) )
+    }
 })
 
 app.post('/register', (req, res) => {
     const username = req.body.username
     const account = req.body.account
     const password = req.body.password
-    if (isBlank(username, account, password)) res.json(ILLEAGE)
-    registerRequest(username, account, password)
-    .then( status => res.json(status) )
-    .catch( () => res.json(NORESPONSE) )
+    if (isBlank(username, account, password)) {
+        res.json(ILLEAGE)
+    } else {
+        registerRequest(username, account, password)
+        .then( status => res.json(status) )
+        .catch( () => res.json(NORESPONSE) )
+    }
 })
 
 app.get('/check', (req, res) => {
