@@ -51,3 +51,9 @@
     text-decoration:none;
     cursor: pointer;
 }
+
+.login input:-webkit-autofill,
+.login select:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    transition: background-color 50000s ease-in-out 0s;
+}
