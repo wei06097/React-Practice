@@ -1,12 +1,15 @@
 import React from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import * as cookie from './pages/cookie'
 import Login from './pages/account/Login'
 import Register from './pages/account/Register'
 import Homepage from './pages/homepage/Homepage'
 
 const NotFound = () => <h1>404 Not Found</h1>
 const Home = () => {
-    window.location.href = '/login'
+    cookie.checkUser()
+    .then( () => window.location.href = '/homepage')
+    .catch( () => window.location.href = '/login')
     return <></>
 }
 

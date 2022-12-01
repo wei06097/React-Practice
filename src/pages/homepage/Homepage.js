@@ -9,14 +9,14 @@ export default function Homepage() {
     const [component, setComponent] = useState('')
     useEffect( () => {
         cookie.checkUser()
-        .then( data => {
+        .then( (data) => {
             setData(data)
             setComponent('user')
         })
         .catch( () => setComponent('visitor') )
     }, [])
     
-    const mainJSX = useCallback(() => {
+    const mainJSX = useCallback( () => {
         const logout = () => {
             cookie.remove()
             navigate('/login')
@@ -32,6 +32,7 @@ export default function Homepage() {
             return mainJSX()
         case 'visitor':
             window.location.href = '/login'
+            return <></>
         default:
             return <></>
     }

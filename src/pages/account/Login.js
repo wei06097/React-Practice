@@ -1,6 +1,6 @@
 import './Login.css'
 import * as cookie from '../cookie'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {API_LOGIN} from '../../constant'
 
@@ -23,56 +23,69 @@ async function fetchAPI(payload) {
 
 export default function Login() {
     const navigate = useNavigate()
+    const [component, setComponent] = useState('')
     const [flag, setFlag]  = useState(false)
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
-    const handleAccount = (e) => setAccount(e.target.value)
-    const handlePassword = (e) => setPassword(e.target.value)
+    
     useEffect( () => {
         cookie.checkUser()
-        .then( () => navigate("/homepage") )
-    }, [navigate])
-    const submitForm = (e) => {
-        e.preventDefault()
-        setFlag(true)
-        const payload = {
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                account,
-                password
-            })
-        }
-        if (isBlank(account, password)) {
-            setFlag(false)
-            alert('輸入不可為空白')
-        } else {
-            fetchAPI(payload)
-            .then( (data) => {
-                setFlag(false)
-                if (!data.success) {
-                    alert(data.message)
-                    setPassword('')
-                } else {
-                    alert(data.message)
-                    cookie.set(data.token)
-                    navigate("/homepage")
-                }
-            })
-            .catch( () => {
-                setFlag(false)
-                alert('伺服器沒有回應') 
-            })
-        }
-    }
+        .then( () => window.location.href = '/homepage' )
+        .catch( () => setComponent('visitor') )
+    }, [])
 
-    return (<div className='login-page'>
-        <form onSubmit={submitForm} className='login'>
-            <h1>登入頁面</h1>
-            <input type="text" placeholder='帳號' onChange={handleAccount} value={account} />
-            <input type="password" placeholder='密碼' onChange={handlePassword} value={password} autoComplete="on" />
-            <input type="submit" value="登入" disabled={flag}/>
-            <Link to='/register' className='link'>註冊帳號</Link>
-        </form>
-    </div>)
+    const mainJSX = useCallback( () => {
+        const handleAccount = (e) => setAccount(e.target.value)
+        const handlePassword = (e) => setPassword(e.target.value)
+        const submitForm = (e) => {
+            e.preventDefault()
+            setFlag(true)
+            const payload = {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    account,
+                    password
+                })
+            }
+            if (isBlank(account, password)) {
+                setFlag(false)
+                alert('輸入不可為空白')
+            } else {
+                fetchAPI(payload)
+                .then( (data) => {
+                    setFlag(false)
+                    if (!data.success) {
+                        alert(data.message)
+                        setPassword('')
+                    } else {
+                        alert(data.message)
+                        cookie.set(data.token)
+                        navigate("/homepage")
+                    }
+                })
+                .catch( () => {
+                    setFlag(false)
+                    alert('伺服器沒有回應')
+                })
+            }
+        }
+
+        return (<div className='login-page'>
+            <form onSubmit={submitForm} className='login'>
+                <h1>登入頁面</h1>
+                <input type="text" placeholder='帳號' onChange={handleAccount} value={account} />
+                <input type="password" placeholder='密碼' onChange={handlePassword} value={password} autoComplete="on" />
+                <input type="submit" value="登入" disabled={flag}/>
+                <Link to='/register' className='link'>註冊帳號</Link>
+            </form>
+        </div>)
+    })
+
+    switch (component) {
+        case 'visitor':
+            return mainJSX()
+        default:
+            return <></>
+    }
 }
