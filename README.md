@@ -3,8 +3,7 @@
 - 開啟後端 `node server.js`
 - [文章來源](https://ithelp.ithome.com.tw/articles/10275089)
 
-# 筆記
-### configureStore
+# configureStore
 - 功用和 createStore 一樣可以建立 Store，但還可以結合 reducers、middleware。
 
     ```
@@ -19,7 +18,7 @@
     export default store
     ```
 
-### createAction
+# createAction
 + 建立 action creator 的函式，放在 createAction() 裡面的參數會自動變成 action type。
 
     ```
@@ -34,7 +33,7 @@
     // returns { type: 'counter/increment', payload: 3 }
     ```
 
-### createReducer
+# createReducer
 - 撰寫 reducer 的時候可以不用再用 switch case 語法，並且語法底層加入了 immer，因此可以使用會有 side effect 的寫法去變更 state，背後會再幫你轉成 「immutable」的方式。
 
     ```
@@ -60,7 +59,7 @@
     })
     ```
 
-### createSlice
+# createSlice
 - 將一個 slice 的 name、初始化的 state、reducer、action 統一在一個地方建立，並會產生 action creators 和 action type。
 
     ```
@@ -88,7 +87,7 @@
     export default counterSlice.reducer
     ```
 
-### createAsyncThunk
+# createAsyncThunk
 - 用來處理非同步，會接受一個 action type 和一個回傳 promise 的 callback function，最後回傳一個 thunk action creator。
 
     ```
