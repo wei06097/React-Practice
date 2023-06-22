@@ -6,7 +6,7 @@
 # configureStore
 - 功用和 createStore 一樣可以建立 Store，但還可以結合 reducers、middleware。
 
-    ```
+    ```JavaScript
     import { configureStore } from "@reduxjs/toolkit"
     import userSlice from "./store/userSlice"
 
@@ -21,7 +21,7 @@
 # createAction
 + 建立 action creator 的函式，放在 createAction() 裡面的參數會自動變成 action type。
 
-    ```
+    ```JavaScript
     import { createAction } from '@reduxjs/toolkit'
 
     const increment = createAction('counter/increment')
@@ -36,7 +36,7 @@
 # createReducer
 - 撰寫 reducer 的時候可以不用再用 switch case 語法，並且語法底層加入了 immer，因此可以使用會有 side effect 的寫法去變更 state，背後會再幫你轉成 「immutable」的方式。
 
-    ```
+    ```JavaScript
     import { createAction, createReducer } from '@reduxjs/toolkit'
 
     const increment = createAction('counter/increment')
@@ -62,7 +62,7 @@
 # createSlice
 - 將一個 slice 的 name、初始化的 state、reducer、action 統一在一個地方建立，並會產生 action creators 和 action type。
 
-    ```
+    ```JavaScript
     import { createSlice } from '@reduxjs/toolkit'
 
     const initialState = { value: 0 }
@@ -90,7 +90,7 @@
 # createAsyncThunk
 - 用來處理非同步，會接受一個 action type 和一個回傳 promise 的 callback function，最後回傳一個 thunk action creator。
 
-    ```
+    ```JavaScript
     import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
     import { userAPI } from './userAPI'
 
@@ -124,7 +124,7 @@
 - useSelector: 取得 store 所儲存的 state。
 - useDispatch: 調用 reducer 來分發一個 action 以更新狀態。
 
-    ```
+    ```JavaScript
     import { useDispatch } from "react-redux"
     import { useSelector } from "react-redux/es/hooks/useSelector"
     import { loginUser } from "../store/userSlice"
