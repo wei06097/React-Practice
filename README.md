@@ -1,24 +1,9 @@
-# 測試 React + Redux-Toolkit
+# 測試 React + Redux-Toolkit + redux-persist
 - 開啟前端 `npm start`
 - 開啟後端 `node server.js`
 - [文章來源](https://ithelp.ithome.com.tw/articles/10275089)
 
-# configureStore
-- 功用和 createStore 一樣可以建立 Store，但還可以結合 reducers、middleware。
-
-    ```JavaScript
-    import { configureStore } from "@reduxjs/toolkit"
-    import userSlice from "./store/userSlice"
-
-    const store = configureStore({
-        reducer : {
-            user : userSlice
-        }
-    })
-    export default store
-    ```
-
-# createAction
+# createAction()
 + 建立 action creator 的函式，放在 createAction() 裡面的參數會自動變成 action type。
 
     ```JavaScript
@@ -33,7 +18,7 @@
     // returns { type: 'counter/increment', payload: 3 }
     ```
 
-# createReducer
+# createReducer()
 - 撰寫 reducer 的時候可以不用再用 switch case 語法，並且語法底層加入了 immer，因此可以使用會有 side effect 的寫法去變更 state，背後會再幫你轉成 「immutable」的方式。
 
     ```JavaScript
@@ -59,7 +44,7 @@
     })
     ```
 
-# createSlice
+# createSlice()
 - 將一個 slice 的 name、初始化的 state、reducer、action 統一在一個地方建立，並會產生 action creators 和 action type。
 
     ```JavaScript
@@ -87,7 +72,7 @@
     export default counterSlice.reducer
     ```
 
-# createAsyncThunk
+# createAsyncThunk()
 - 用來處理非同步，會接受一個 action type 和一個回傳 promise 的 callback function，最後回傳一個 thunk action creator。
 
     ```JavaScript
@@ -120,7 +105,84 @@
     })
     ```
 
-# useSelector & useDispatch
+# configureStore()
+- 功用和 createStore 一樣可以建立 Store，但還可以結合 reducers、middleware。
+
+    ```JavaScript
+    import { configureStore } from "@reduxjs/toolkit"
+    import userSlice from "./store/userSlice"
+
+    const store = configureStore({
+        reducer : {
+            user : userSlice
+        }
+    })
+    export default store
+    ```
+
+# store
+- storage : 將 state 儲存在 localStorage
+- storageSession : 將 state 儲存在 sessionStorage
+
+    ```JavaScript
+    import thunk from 'redux-thunk'
+    import { combineReducers } from "redux"
+    import { configureStore } from "@reduxjs/toolkit"
+    import { persistReducer, persistStore } from "redux-persist"
+    import storage from "redux-persist/lib/storage"
+    import storageSession from "redux-persist/lib/storage/session"
+
+    import userSlice from "./store/userSlice"
+    import counterSlice from "./store/counterSlice"
+
+    /* ======================================== */
+    const userPersistConfig = {
+        key : "user",
+        storage : storage
+    }
+    const counterPersistConfig = {
+        key : "counter",
+        storage : storageSession
+    }
+
+    const reducer = combineReducers({
+        user : persistReducer(userPersistConfig, userSlice),
+        counter : persistReducer(counterPersistConfig, counterSlice)
+    })
+    const store = configureStore({
+        reducer : reducer,
+        middleware : [thunk]
+    })
+
+    export const persistor = persistStore(store)
+    export default store
+
+    ```
+
+# Provider() & PersistGate()
+- Provider : store
+- PersistGate : persistor
+
+    ```JavaScript
+    import Profile from "./Components/Profile"
+    import store, { persistor } from "./store"
+    import { Provider } from "react-redux"
+    import { PersistGate } from "redux-persist/integration/react"
+
+    function App() {
+        return (
+            <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <Profile />
+            </PersistGate>
+            </Provider>
+        )
+    }
+
+    export default App
+    ```
+
+# useSelector() & useDispatch()
 - useSelector: 取得 store 所儲存的 state。
 - useDispatch: 調用 reducer 來分發一個 action 以更新狀態。
 
