@@ -31,24 +31,16 @@ const userSlice = createSlice({
     name : "user",
     initialState : initialState,
     reducers : {
-        setLogin(state, action) {
-            state.profile = {
-                ...action.payload,
-                login : true
-            }
-        },
         setLogout(state) {
-            state.profile = {...initialState}
+            state.profile = {...initialState.profile}
         }
     },
     extraReducers : (builder) => {
         builder
             .addCase(loginUser.pending, (state) => {
-                console.log("pending")
                 state.loading = true
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                console.log("fulfilled: ", action.payload)
                 const {isSuccess, username} = action.payload
                 if (isSuccess) {
                     state.profile = {
@@ -56,18 +48,17 @@ const userSlice = createSlice({
                         login : true
                     }
                 } else {
-                    state.profile = {...initialState}
+                    state.profile = {...initialState.profile}
                     alert("登入失敗")
                 }
                 state.loading = false
             })
             .addCase(loginUser.rejected, (state, action) => {
-                console.log("rejected: ", action.payload)
-                alert("伺服器無回應")
+                alert(action.payload)
                 state.loading = false
             })
     }
 })
 
 export default userSlice.reducer
-export const { setLogin, setLogout } = userSlice.actions
+export const { setLogout } = userSlice.actions
