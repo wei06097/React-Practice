@@ -1,6 +1,9 @@
 # 測試 React + Redux-Toolkit + redux-persist
 - 開啟前端 `npm start`
 - 開啟後端 `node server.js`
+- 功能
+    - 使用 Redux-Toolkit 管理登入狀態、計數器狀態
+    - 使用 redux-persist 將登入狀態存在 localStorage、計數器狀態存在 sessionStorage
 - [文章來源](https://ithelp.ithome.com.tw/articles/10275089)
 
 # createAction()
